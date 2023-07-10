@@ -15,7 +15,7 @@ Launch:
 
 Request Examples:
 -
-- POST: http://localhost:8080/xml (File attached as form-multipart-data)
+- POST: http://localhost:8080/xml (File attached as form-multipart-data, param name 'file')
 - GET: http://localhost:8080/xml - get all parsed xml data
 - GET: http://localhost:8080/xml?newspaperName=ABC - get all parsed xml data where newspaperName equals "ABC"
 
