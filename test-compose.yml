@@ -1,0 +1,10 @@
+version: "2.1"
+services:
+  mongodb:
+    container_name: xml-test-mongodb
+    image: mongo:6.0.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - '27217:27017'

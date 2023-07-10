@@ -1,0 +1,15 @@
+storage:
+  location: files/data/
+  schema: files/schema/request.xsd
+
+spring:
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  data:
+    mongodb:
+      uri: 'mongodb://root:rootpassword@localhost:27217/admin'
+      auto-index-creation: true

@@ -1,0 +1,28 @@
+version: "2.1"
+services:
+  mongodb:
+    container_name: xml-mongodb
+    image: mongo:6.0.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongodb_data:/data/db
+  app:
+    container_name: xml-files-service
+    image: openjdk:17-jdk
+    depends_on:
+      - mongodb
+    mem_limit: 2G
+    volumes:
+      - ./target/xml-1.jar:/app/service.jar
+      - ./files/:/app/files/
+    environment:
+      - TZ=UTC
+      - SPRING_PROFILES_ACTIVE=local
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    command: java -jar /app/service.jar
