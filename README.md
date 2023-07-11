@@ -1,6 +1,6 @@
 XML validate & parse service
 -
-- Java 17, Spring-Boot, MongoDB
+- Java 11, Spring-Boot, MongoDB
 - Check the pdf task for full description
 
 Attention:
