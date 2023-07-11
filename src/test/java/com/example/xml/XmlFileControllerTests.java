@@ -3,6 +3,8 @@ package com.example.xml;
 import com.example.xml.api.dto.xmldata.XmlData;
 import com.example.xml.api.dto.xmldata.XmlDataRepository;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +39,20 @@ public class XmlFileControllerTests {
     private final String validXmlFile = String.format("%s%s", xmlFilesDir, "request.xml");
     private final String invalidXmlFile = String.format("%s%s", xmlFilesDir, "request2.xml");
 
+    private final static TestEnvironmentCommands shell = new TestEnvironmentCommands();
+
+    @BeforeAll
+    static void initTestEnvironment() {
+        shell.command("docker-compose -f test-compose.yml up -d");
+    }
+
+    @AfterAll
+    static void dropTestEnvironment() {
+        shell.command("docker-compose -f test-compose.yml down");
+    }
+
     @BeforeEach
-    public void init() {
+    public void initRepo() {
         xmlDataRepository.deleteAll();
     }
 

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/xml")
@@ -29,15 +31,12 @@ public class XmlFileController {
     }
 
     @GetMapping
-    public Page<XmlDataDTO> getXmlData(@RequestParam(value = "newspaperName", required = false) String newspaperName,
-                                       @RequestParam(value = "screenWidth", required = false) Short screenWidth,
-                                       @RequestParam(value = "screenHeight", required = false) Short screenHeight,
-                                       @RequestParam(value = "screenDpi", required = false) Short screenDpi,
-                                       Pageable pageable) {
+    public Page<XmlDataDTO> getXmlData(@RequestParam Map<String, String> filters,
+                                        Pageable pageable) {
 
-        if (newspaperName != null || screenWidth != null || screenHeight != null || screenDpi != null) {
+        if (filters.values().stream().anyMatch(Objects::nonNull)) {
 
-            return xmlDataService.getByFilter(newspaperName, screenWidth, screenHeight, screenDpi, pageable);
+            return xmlDataService.getByFilter(filters, pageable);
         }
 
         return xmlDataService.getAll(pageable);

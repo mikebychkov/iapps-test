@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 public interface XmlDataService {
 
@@ -15,9 +16,6 @@ public interface XmlDataService {
 
     Page<XmlDataDTO> getAll(Pageable pageable);
 
-    Page<XmlDataDTO> getByFilter(String newspaperName,
-                                 Short screenWidth,
-                                 Short screenHeight,
-                                 Short screenDpi,
+    Page<XmlDataDTO> getByFilter(Map<String, String> filters,
                                  Pageable pageable);
 }

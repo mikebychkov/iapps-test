@@ -1,6 +1,7 @@
 package com.example.xml.api.dto.xmldata;
 
 import com.example.xml.api.service.XMLValidationService;
+import com.example.xml.api.service.XmlDataFilterService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,7 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class XmlDataServiceImpl implements XmlDataService {
 
     private final XmlDataRepository xmlDataRepository;
     private final XMLValidationService xmlValidationService;
+    private final XmlDataFilterService xmlDataFilterService;
     private final XmlMapper mapper = new XmlMapper();
 
     @Value("${storage.schema}")
@@ -72,24 +75,17 @@ public class XmlDataServiceImpl implements XmlDataService {
     }
 
     @Override
-    public Page<XmlDataDTO> getByFilter(String newspaperName,
-                                        Short screenWidth,
-                                        Short screenHeight,
-                                        Short screenDpi,
+    public Page<XmlDataDTO> getByFilter(Map<String, String> filters,
                                         Pageable pageable) {
 
-        XmlData filter = XmlData.builder()
-                .uploadTime(null)
-                .newspaperName(newspaperName)
-                .screenWidth(screenWidth)
-                .screenHeight(screenHeight)
-                .screenDpi(screenDpi)
-                .build();
+        XmlData filter = XmlData.builder().uploadTime(null).build();
+
+        filters.forEach((key, value) -> xmlDataFilterService.setFieldValue(filter, key, value));
 
         List<XmlDataDTO> filteredList = xmlDataRepository.findAll(Example.of(filter), pageable.getSort())
                 .stream()
                 .map(XmlData::toDto)
-                .toList();
+                .collect(Collectors.toList());
 
         return new PageImpl<XmlDataDTO>(filteredList, pageable, filteredList.size());
     }
