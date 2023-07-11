@@ -5,12 +5,12 @@ XML validate & parse service
 
 Attention:
 -
-- In order to run this service you must have Java 17 installed on your computer.
+- In order to run this service you must have Java 11 installed on your computer.
 - Have Docker & Docker-compose on your computer.
 
 Launch:
 -
-- ./test.sh - to run tests (Ports: 8080, 27217 - should not be in use)
+- ./test.sh - to run tests (Ports: 8080, 27217 - should not be in use, tests launch test-environment on itself so overall test launch command could be just: './mvnw test')
 - ./start-local.sh - to launch service app, this script also run tests before launching app (Ports: 8080, 27017 - should not be in use)
 
 Request Examples:
