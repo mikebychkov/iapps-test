@@ -1,2 +1,2 @@
 #!/bin/bash
-./mvnw clean test
+./mvnw test
