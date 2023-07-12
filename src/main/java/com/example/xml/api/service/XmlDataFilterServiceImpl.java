@@ -16,26 +16,22 @@ public class XmlDataFilterServiceImpl implements XmlDataFilterService {
 
         fieldSetters.put("newspaperName", XmlData::setNewspaperName);
         fieldSetters.put("screenWidth", (d,s) -> {
-            try {
-                d.setScreenWidth(Short.parseShort(s));
-            } catch (NumberFormatException e) {
-                d.setScreenWidth(null);
-            }
+            d.setScreenWidth(getShort(s));
         });
         fieldSetters.put("screenHeight", (d,s) -> {
-            try {
-                d.setScreenHeight(Short.parseShort(s));
-            } catch (NumberFormatException e) {
-                d.setScreenHeight(null);
-            }
+            d.setScreenHeight(getShort(s));
         });
         fieldSetters.put("screenDpi", (d,s) -> {
-            try {
-                d.setScreenDpi(Short.parseShort(s));
-            } catch (NumberFormatException e) {
-                d.setScreenDpi(null);
-            }
+            d.setScreenDpi(getShort(s));
         });
+    }
+
+    private Short getShort(String value) {
+        try {
+            return Short.parseShort(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     @Override
